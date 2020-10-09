@@ -1,0 +1,3 @@
+table_set_default port_match NoAction
+table_add port_match set_egress_port 1 => 2
+table_add port_match set_egress_port 2 => 1
