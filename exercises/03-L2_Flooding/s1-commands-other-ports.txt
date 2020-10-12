@@ -1,0 +1,42 @@
+# Standard dmac table entries
+table_add dmac forward 00:00:0a:00:00:01 => 1
+table_add dmac forward 00:00:0a:00:00:02 => 2
+table_add dmac forward 00:00:0a:00:00:03 => 3
+table_add dmac forward 00:00:0a:00:00:04 => 4
+
+
+# Define a multicast group for packets coming from port 1. 
+mc_mgrp_create 1
+# Define a multicast group for packets coming from port 2. 
+mc_mgrp_create 2
+# Define a multicast group for packets coming from port 3. 
+mc_mgrp_create 3
+# Define a multicast group for packets coming from port 4. 
+mc_mgrp_create 4
+
+# Create a multicast node that contains all the ports but port 1...
+mc_node_create 0 2 3 4
+# ... and associate it with the multicast group 1.
+mc_node_associate 1 0
+
+# Create a multicast node that contains all the ports but port 2...
+mc_node_create 1 1 3 4
+# ... and associate it with the multicast group 2.
+mc_node_associate 2 1
+
+# Create a multicast node that contains all the ports but port 3...
+mc_node_create 2 1 2 4
+# ... and associate it with the multicast group 3.
+mc_node_associate 3 2
+
+# Create a multicast node that contains all the ports but port 4...
+mc_node_create 3 1 2 3
+# ... and associate it with the multicast group 4.
+mc_node_associate 4 3
+
+
+# Fill the mc_group_table
+table_add mc_group_table set_multicast_group 1 => 1
+table_add mc_group_table set_multicast_group 2 => 2
+table_add mc_group_table set_multicast_group 3 => 3
+table_add mc_group_table set_multicast_group 4 => 4
